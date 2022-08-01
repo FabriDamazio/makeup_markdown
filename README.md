@@ -1,4 +1,4 @@
-# MakeupMd
+# MakeupMD
 
 **TODO: Add description**
 

@@ -1,4 +1,4 @@
-defmodule MakeupMd.MixProject do
+defmodule MakeupMD.MixProject do
   use Mix.Project
 
   def project do

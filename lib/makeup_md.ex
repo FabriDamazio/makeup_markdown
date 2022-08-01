@@ -1,16 +1,7 @@
-defmodule MakeupMd do
+defmodule MakeupMD do
   @moduledoc """
-  Documentation for `MakeupMd`.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> MakeupMd.hello()
-      :world
-
+    Lexer for the Markdown language to be used
+    with the Makeup package.
   """
   def hello do
     :world

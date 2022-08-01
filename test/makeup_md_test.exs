@@ -1,8 +1,8 @@
-defmodule MakeupMdTest do
+defmodule MakeupMDTest do
   use ExUnit.Case
-  doctest MakeupMd
+  doctest MakeupMD
 
   test "greets the world" do
-    assert MakeupMd.hello() == :world
+    assert MakeupMD.hello() == :world
   end
 end
