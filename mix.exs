@@ -1,9 +1,9 @@
-defmodule MakeupMD.MixProject do
+defmodule MakeupMarkdown.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :makeup_md,
+      app: :makeup_markdown,
       version: "0.1.0",
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
@@ -47,7 +47,7 @@ defmodule MakeupMD.MixProject do
       name: :makeup_html,
       licenses: ["MIT"],
       maintainers: ["Fabricio Damazio <fabridamazio@gmail.com>"],
-      links: %{"GitHub" => "https://github.com/FabriDamazio/makeup_md"}
+      links: %{"GitHub" => "https://github.com/FabriDamazio/makeup_markdown"}
     ]
   end
 
