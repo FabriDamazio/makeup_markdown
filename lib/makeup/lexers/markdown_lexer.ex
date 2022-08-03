@@ -9,6 +9,22 @@ defmodule Makeup.Lexers.MarkdownLexer do
   import NimbleParsec
   import Makeup.Lexer.Combinators
 
+  # whitespace =
+  #   [?\r, ?\s, ?\n, ?\f]
+  #   |> ascii_string(min: 1)
+  #   |> token(:whitespace)
+
+  # line = utf8_string([{:not, ?\n}, {:not, ?\r}], min: 1)
+
+  # text = token(line, :text)
+
+  # teste =
+  #   "a"
+  #   |> string()
+  #   |> token(:name)
+
+  # root_element_combinator = choice([whitespace, text, teste])
+
   whitespace =
     [?\r, ?\s, ?\n, ?\f]
     |> ascii_string(min: 1)
@@ -16,9 +32,33 @@ defmodule Makeup.Lexers.MarkdownLexer do
 
   line = utf8_string([{:not, ?\n}, {:not, ?\r}], min: 1)
 
+  inserted =
+    [string("+"), string(">")]
+    |> choice()
+    |> concat(line)
+    |> token(:generic_inserted)
+
+  deleted =
+    [string("-"), string("<")]
+    |> choice()
+    |> concat(line)
+    |> token(:generic_deleted)
+
+  strong =
+    "!"
+    |> string()
+    |> concat(line)
+    |> token(:generic_strong)
+
+  heading =
+    [string("diff"), string("index")]
+    |> choice()
+    |> concat(line)
+    |> token(:generic_heading)
+
   text = token(line, :text)
 
-  root_element_combinator = choice([whitespace, text ])
+  root_element_combinator = choice([whitespace, heading, inserted, deleted, strong, text])
 
   @doc false
   def __as_markdown_language__({type, meta, value}) do
@@ -47,5 +87,9 @@ defmodule Makeup.Lexers.MarkdownLexer do
     tokens
     |> postprocess()
     |> match_groups()
+  end
+
+  def teste do
+
   end
 end
