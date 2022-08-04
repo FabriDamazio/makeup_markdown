@@ -12,6 +12,10 @@ defmodule Makeup.Lexers.MarkdownLexer do
 
   whitespace = ascii_string([?\r, ?\s, ?\n, ?\f], min: 1)
 
+  whitespace_tokens =
+    whitespace
+    |> token(:whitespace)
+
   line = utf8_string([{:not, ?\n}, {:not, ?\r}], min: 1)
 
   atx_headings =
@@ -25,7 +29,7 @@ defmodule Makeup.Lexers.MarkdownLexer do
 
   text = token(line, :text)
 
-  root_element_combinator = choice(atx_headings ++ [text])
+  root_element_combinator = choice(atx_headings ++ [text, whitespace_tokens])
 
   @doc false
   def __as_markdown_language__({type, meta, value}) do
