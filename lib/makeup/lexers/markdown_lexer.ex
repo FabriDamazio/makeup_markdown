@@ -7,29 +7,15 @@ defmodule Makeup.Lexers.MarkdownLexer do
   @behaviour Makeup.Lexer
 
   import NimbleParsec
-  import Makeup.Lexer.Combinators
   alias Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks
+  alias Makeup.Lexers.MarkdownLexer.MarkdownWhitespaces
+  alias Makeup.Lexers.MarkdownLexer.MarkdownLine
 
-  whitespace = ascii_string([?\r, ?\s, ?\n, ?\f], min: 1)
-
-  whitespace_tokens =
-    whitespace
-    |> token(:whitespace)
-
-  line = utf8_string([{:not, ?\n}, {:not, ?\r}], min: 1)
-
-  atx_headings =
-    MarkdownLeafBlocks.get_atx_headings()
-    |> Enum.map(fn x ->
-      x
-      |> string()
-      |> concat(whitespace)
-      |> token(:generic_strong)
-    end)
-
-  text = token(line, :text)
-
-  root_element_combinator = choice(atx_headings ++ [text, whitespace_tokens])
+  root_element_combinator =
+    choice(
+      MarkdownLeafBlocks.get_atx_headings_tokens() ++
+        [MarkdownLine.get_text_token(), MarkdownWhitespaces.get_whitespaces_tokens()]
+    )
 
   @doc false
   def __as_markdown_language__({type, meta, value}) do
