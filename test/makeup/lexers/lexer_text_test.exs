@@ -17,7 +17,8 @@ defmodule Makeup.Lexers.LexerTextTest do
     end
 
     test "####### Test" do
-      assert [{:text, %{language: :markdown}, "####### Test"}] == MarkdownLexer.lex("####### Test")
+      assert [{:text, %{language: :markdown}, "####### Test"}] ==
+               MarkdownLexer.lex("####### Test")
     end
   end
 end

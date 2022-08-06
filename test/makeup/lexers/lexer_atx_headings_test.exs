@@ -1,79 +1,40 @@
 defmodule Makeup.Lexers.LexerAtxHeadingsTest do
   use ExUnit.Case, async: true
+  import Makeup.Lexers.MarkdownLexer, only: [lex: 1]
+  import Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks, only: [get_atx_headings: 0]
 
-  alias Makeup.Lexers.MarkdownLexer
+  ExUnit.Case.register_attribute(__ENV__, :atx_heading)
 
   describe "lex/1 lexing ATX Heading" do
-    test "#" do
-      assert [{:generic_strong, %{language: :markdown}, "#"}] == MarkdownLexer.lex("#")
+    for atx_heading <- get_atx_headings() do
+      @atx_heading atx_heading
+
+      test "#{atx_heading}", context do
+        x = context.registered.atx_heading
+        assert [{:generic_strong, %{language: :markdown}, x}] == lex(x)
+      end
     end
 
-    test "##" do
-      assert [{:generic_strong, %{language: :markdown}, "##"}] == MarkdownLexer.lex("##")
+    for atx_heading <- get_atx_headings() do
+      @atx_heading atx_heading
+
+      test "#{atx_heading} with trailing space", context do
+        x = context.registered.atx_heading
+
+        assert [{:generic_strong, %{language: :markdown}, [x, " "]}] ==
+                 lex(x <> " ")
+      end
     end
 
-    test "###" do
-      assert [{:generic_strong, %{language: :markdown}, "###"}] == MarkdownLexer.lex("###")
-    end
+    for atx_heading <- get_atx_headings() do
+      @atx_heading atx_heading
 
-    test "####" do
-      assert [{:generic_strong, %{language: :markdown}, "####"}] == MarkdownLexer.lex("####")
-    end
+      test "#{atx_heading} with trailing Text", context do
+        x = context.registered.atx_heading
 
-    test "#####" do
-      assert [{:generic_strong, %{language: :markdown}, "#####"}] == MarkdownLexer.lex("#####")
-    end
-
-    test "######" do
-      assert [{:generic_strong, %{language: :markdown}, "######"}] == MarkdownLexer.lex("######")
-    end
-
-    test "# with trailing space" do
-      assert [{:generic_strong, %{language: :markdown}, ["#", " "]}] == MarkdownLexer.lex("# ")
-    end
-
-    test "## with trailing space" do
-      assert [{:generic_strong, %{language: :markdown}, ["##", " "]}] == MarkdownLexer.lex("## ")
-    end
-
-    test "### with trailing space" do
-      assert [{:generic_strong, %{language: :markdown}, ["###", " "]}] == MarkdownLexer.lex("### ")
-    end
-
-    test "#### with trailing space" do
-      assert [{:generic_strong, %{language: :markdown}, ["####", " "]}] == MarkdownLexer.lex("#### ")
-    end
-
-    test "##### with trailing space" do
-      assert [{:generic_strong, %{language: :markdown}, ["#####", " "]}] == MarkdownLexer.lex("##### ")
-    end
-
-    test "###### with trailing space" do
-      assert [{:generic_strong, %{language: :markdown}, ["######", " "]}] == MarkdownLexer.lex("###### ")
-    end
-
-    test "# with Text" do
-      assert [{:generic_strong, %{language: :markdown}, ["#", " ", "Test"]}] == MarkdownLexer.lex("# Test")
-    end
-
-    test "## with Text" do
-      assert [{:generic_strong, %{language: :markdown}, ["##", " ", "Test"]}] == MarkdownLexer.lex("## Test")
-    end
-
-    test "### with Text" do
-      assert [{:generic_strong, %{language: :markdown}, ["###", " ", "Test"]}] == MarkdownLexer.lex("### Test")
-    end
-
-    test "#### with Text" do
-      assert [{:generic_strong, %{language: :markdown}, ["####", " ", "Test"]}] == MarkdownLexer.lex("#### Test")
-    end
-
-    test "##### with Text" do
-      assert [{:generic_strong, %{language: :markdown}, ["#####", " ", "Test"]}] == MarkdownLexer.lex("##### Test")
-    end
-
-    test "###### with Text" do
-      assert [{:generic_strong, %{language: :markdown}, ["######", " ", "Test"]}] == MarkdownLexer.lex("###### Test")
+        assert [{:generic_strong, %{language: :markdown}, [x, " ", "Test"]}] ==
+                 lex(x <> " Test")
+      end
     end
   end
 end

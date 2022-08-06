@@ -21,23 +21,27 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
     "######"
   ]
 
-  def get_atx_headings_tokens() do
-    atx = @atx_headings
-    |> Enum.map(fn x ->
-      x
-      |> string()
-      |> eos()
-      |> token(:generic_strong)
-    end)
+  def get_atx_headings(), do: @atx_headings
 
-    atx_with_trailing_space = @atx_headings
-    |> Enum.map(fn x ->
-      x
-      |> string()
-      |> concat(MarkdownWhitespaces.get_whitspaces())
-      |> optional(MarkdownLine.get_text())
-      |> token(:generic_strong)
-    end)
+  def get_atx_headings_tokens() do
+    atx =
+      @atx_headings
+      |> Enum.map(fn x ->
+        x
+        |> string()
+        |> eos()
+        |> token(:generic_strong)
+      end)
+
+    atx_with_trailing_space =
+      @atx_headings
+      |> Enum.map(fn x ->
+        x
+        |> string()
+        |> concat(MarkdownWhitespaces.get_whitspaces())
+        |> optional(MarkdownLine.get_text())
+        |> token(:generic_strong)
+      end)
 
     atx ++ atx_with_trailing_space
   end
