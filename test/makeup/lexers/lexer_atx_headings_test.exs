@@ -36,5 +36,16 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
                  lex(x <> " Test")
       end
     end
+
+    for atx_heading <- get_atx_headings() do
+      @atx_heading atx_heading
+
+      test "#{atx_heading} with Text and trailing ATX Heading", context do
+        x = context.registered.atx_heading
+
+        assert [{:generic_strong, %{language: :markdown}, [x, " ", "Test #{x}"]}] ==
+                 lex(x <> " Test " <> x)
+      end
+    end
   end
 end
