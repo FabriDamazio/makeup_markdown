@@ -24,8 +24,11 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
       test "#{atx_heading} with trailing space", context do
         x = context.registered.atx_heading
 
-        assert [{:generic_strong, %{language: :markdown}, [x, " "]}] ==
-                 lex(x <> " ")
+        assert [
+                 {:generic_strong, %{language: :markdown}, [x, " "]},
+                 {:whitespace, %{language: :markdown}, "\n"}
+               ] ==
+                 lex("#{x} \n")
       end
     end
 
@@ -66,7 +69,10 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
       test "#{set_text_heading}", context do
         x = context.registered.set_text_heading
 
-        assert [{:generic_heading, %{language: :markdown}, ["Title", "\n", x]}, {:whitespace, %{language: :markdown}, "\n"}] ==
+        assert [
+                 {:generic_heading, %{language: :markdown}, ["Title", "\n", x]},
+                 {:whitespace, %{language: :markdown}, "\n"}
+               ] ==
                  lex("""
                  Title
                  #{x}
@@ -79,11 +85,15 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
 
       test "#{set_text_heading}#{set_text_heading}", context do
         x = context.registered.set_text_heading
-        assert [{:generic_heading, %{language: :markdown}, ["Title", "\n", x, x]}, {:whitespace, %{language: :markdown}, "\n"}] ==
-          lex("""
-          Title
-          #{x}#{x}
-          """)
+
+        assert [
+                 {:generic_heading, %{language: :markdown}, ["Title", "\n", x, x]},
+                 {:whitespace, %{language: :markdown}, "\n"}
+               ] ==
+                 lex("""
+                 Title
+                 #{x}#{x}
+                 """)
       end
     end
   end

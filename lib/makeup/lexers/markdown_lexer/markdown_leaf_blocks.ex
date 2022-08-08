@@ -39,7 +39,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
         |> token(:generic_strong)
       end)
 
-    atx_with_trailing_space =
+    atx_with_text =
       @atx_headings
       |> Enum.map(fn x ->
         x
@@ -49,7 +49,16 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
         |> optional(MarkdownLine.get_text() |> token(:generic_heading))
       end)
 
-    atx ++ atx_with_trailing_space
+    atx_with_trailing_space =
+      @atx_headings
+      |> Enum.map(fn x ->
+        x
+        |> string()
+        |> concat(MarkdownWhitespaces.get_line_end())
+        |> token(:generic_strong)
+      end)
+
+    atx ++ atx_with_text ++ atx_with_trailing_space
   end
 
   def get_set_text_headings(), do: @set_text_headings
