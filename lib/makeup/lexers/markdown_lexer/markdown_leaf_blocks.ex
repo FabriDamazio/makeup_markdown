@@ -21,6 +21,12 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
     "######"
   ]
 
+  # https://spec.commonmark.org/0.30/#setext-heading
+  @set_text_headings [
+    "-",
+    "="
+  ]
+
   def get_atx_headings(), do: @atx_headings
 
   def get_atx_headings_tokens() do
@@ -38,11 +44,27 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
       |> Enum.map(fn x ->
         x
         |> string()
-        |> concat(MarkdownWhitespaces.get_whitspaces())
-        |> optional(MarkdownLine.get_text())
+        |> concat(MarkdownWhitespaces.get_whitespaces())
         |> token(:generic_strong)
+        |> optional(MarkdownLine.get_text() |> token(:generic_heading))
       end)
 
     atx ++ atx_with_trailing_space
+  end
+
+  def get_set_text_headings(), do: @set_text_headings
+
+  def get_set_text_headings_tokens() do
+    MarkdownLine.get_text()
+    |> concat(MarkdownWhitespaces.get_line_end())
+    |> concat(
+      choice(
+        get_set_text_headings()
+        |> Enum.map(&string/1)
+      )
+      |> times(min: 1)
+    )
+    |> lookahead_not(MarkdownLine.get_text())
+    |> token(:generic_heading)
   end
 end
