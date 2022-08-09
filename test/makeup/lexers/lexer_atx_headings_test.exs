@@ -24,10 +24,7 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
       test "#{atx_heading} with trailing space", context do
         x = context.registered.atx_heading
 
-        assert [
-                 {:generic_strong, %{language: :markdown}, [x, " "]},
-                 {:whitespace, %{language: :markdown}, "\n"}
-               ] ==
+        assert [{:generic_strong, %{language: :markdown}, [x, {:whitespace, %{}, " \n"}]}] ==
                  lex("#{x} \n")
       end
     end
@@ -39,7 +36,7 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
         x = context.registered.atx_heading
 
         assert [
-                 {:generic_strong, %{language: :markdown}, [x, " "]},
+                 {:generic_strong, %{language: :markdown}, [x, {:whitespace, %{}, " "}]},
                  {:generic_heading, %{language: :markdown}, "Test"}
                ] ==
                  lex(x <> " Test")
@@ -53,7 +50,7 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
         x = context.registered.atx_heading
 
         assert [
-                 {:generic_strong, %{language: :markdown}, [x, " "]},
+                 {:generic_strong, %{language: :markdown}, [x, {:whitespace, %{}, " "}]},
                  {:generic_heading, %{language: :markdown}, "Test "},
                  {:generic_strong, %{language: :markdown}, x}
                ] ==
@@ -70,7 +67,8 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
         x = context.registered.set_text_heading
 
         assert [
-                 {:generic_heading, %{language: :markdown}, ["Title", "\n", x]},
+                 {:generic_heading, %{language: :markdown},
+                  ["Title", {:whitespace, %{}, "\n"}, x]},
                  {:whitespace, %{language: :markdown}, "\n"}
                ] ==
                  lex("""
@@ -87,7 +85,8 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
         x = context.registered.set_text_heading
 
         assert [
-                 {:generic_heading, %{language: :markdown}, ["Title", "\n", x, x]},
+                 {:generic_heading, %{language: :markdown},
+                  ["Title", {:whitespace, %{}, "\n"}, x, x]},
                  {:whitespace, %{language: :markdown}, "\n"}
                ] ==
                  lex("""

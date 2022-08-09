@@ -44,7 +44,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
       |> Enum.map(fn x ->
         x
         |> string()
-        |> concat(MarkdownWhitespaces.get_whitespaces())
+        |> concat(MarkdownWhitespaces.get_whitespaces_tokens())
         |> token(:generic_strong)
         |> optional(MarkdownLine.get_text() |> token(:generic_heading))
       end)
@@ -54,7 +54,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
       |> Enum.map(fn x ->
         x
         |> string()
-        |> concat(MarkdownWhitespaces.get_line_end())
+        |> concat(MarkdownWhitespaces.get_line_end_tokens())
         |> token(:generic_strong)
       end)
 
@@ -65,7 +65,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
 
   def get_set_text_headings_tokens() do
     MarkdownLine.get_text()
-    |> concat(MarkdownWhitespaces.get_line_end())
+    |> concat(MarkdownWhitespaces.get_line_end_tokens())
     |> concat(
       choice(
         get_set_text_headings()
