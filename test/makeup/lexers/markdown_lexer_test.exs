@@ -3,7 +3,6 @@ defmodule Makeup.Lexers.MarkdownLexerTest do
 
   alias Makeup.Registry
   alias Makeup.Lexers.MarkdownLexer
-  alias Makeup.Lexer.Postprocess
 
   describe "registration" do
     test "fetching the lexer by name" do
