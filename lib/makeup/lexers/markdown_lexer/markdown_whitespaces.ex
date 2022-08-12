@@ -20,7 +20,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownWhitespaces do
 
   def get_line_end_tokens do
     choice([string("\r\n"), string("\n")])
-    |> optional(ascii_string([?\s, ?\n, ?\f, ?\r], min: 1))
+    |> optional(get_whitespaces())
     |> token(:whitespace)
   end
 end
