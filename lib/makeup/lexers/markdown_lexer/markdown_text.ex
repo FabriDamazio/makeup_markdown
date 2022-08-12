@@ -1,6 +1,6 @@
-defmodule Makeup.Lexers.MarkdownLexer.MarkdownLine do
+defmodule Makeup.Lexers.MarkdownLexer.MarkdownText do
   @moduledoc """
-    Markdown line token generator
+    Markdown text token generator
 
     Lines specification:
     https://spec.commonmark.org/0.30/#characters-and-lines

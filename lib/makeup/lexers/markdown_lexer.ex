@@ -9,13 +9,13 @@ defmodule Makeup.Lexers.MarkdownLexer do
   import NimbleParsec
   alias Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks
   alias Makeup.Lexers.MarkdownLexer.MarkdownWhitespaces
-  alias Makeup.Lexers.MarkdownLexer.MarkdownLine
+  alias Makeup.Lexers.MarkdownLexer.MarkdownText
 
   root_element_combinator =
     choice(
       MarkdownLeafBlocks.get_atx_headings_tokens() ++
         [
-          MarkdownLine.get_text_token(),
+          MarkdownText.get_text_token(),
           MarkdownWhitespaces.get_whitespaces_tokens(),
           MarkdownWhitespaces.get_line_end_tokens()
         ]
