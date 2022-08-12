@@ -8,7 +8,7 @@ defmodule Makeup.Lexers.LexerWhitespaceTest do
       assert [] == MarkdownLexer.lex("")
     end
 
-    test "lexing an whitespace" do
+    test "lexing a whitespace" do
       assert [{:whitespace, %{ language: :markdown }, " "}] == MarkdownLexer.lex(" ")
     end
 
