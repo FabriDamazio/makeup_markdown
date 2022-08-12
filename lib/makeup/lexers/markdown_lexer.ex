@@ -15,7 +15,6 @@ defmodule Makeup.Lexers.MarkdownLexer do
     choice(
       MarkdownLeafBlocks.get_atx_headings_tokens() ++
         [
-          MarkdownLeafBlocks.get_set_text_headings_tokens(),
           MarkdownLine.get_text_token(),
           MarkdownWhitespaces.get_whitespaces_tokens(),
           MarkdownWhitespaces.get_line_end_tokens()

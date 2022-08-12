@@ -10,7 +10,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLine do
   import Makeup.Lexer.Combinators
 
   def get_text do
-    ascii_string([{:not, ?\n}, {:not, ?\r}, {:not, ?#}], min: 1)
+    ascii_string([{:not, ?\n}, {:not, ?\r}], min: 1)
   end
 
   def get_text_token do
