@@ -8,6 +8,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
 
   import NimbleParsec
   import Makeup.Lexer.Combinators
+  alias Makeup.Lexers.MarkdownLexer.MarkdownWhitespaces
 
   # https://spec.commonmark.org/0.30/#atx-headings
   @atx_headings [
@@ -27,6 +28,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
       |> Enum.map(fn x ->
         x
         |> string()
+        |> optional(MarkdownWhitespaces.get_whitespaces())
         |> eos()
         |> token(:generic_strong)
       end)

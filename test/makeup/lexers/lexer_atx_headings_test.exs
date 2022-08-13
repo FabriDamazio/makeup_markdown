@@ -16,5 +16,23 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
         assert [{:generic_strong, %{language: :markdown}, x}] == lex(x)
       end
     end
+
+    for atx_heading <- get_atx_headings() do
+      @atx_heading atx_heading
+
+      test "#{atx_heading} with leading whitespace", context do
+        x = context.registered.atx_heading
+        assert [{:whitespace, %{language: :markdown}, " "}, {:generic_strong, %{language: :markdown}, x}] == lex(" #{x}")
+      end
+    end
+
+    for atx_heading <- get_atx_headings() do
+      @atx_heading atx_heading
+
+      test "#{atx_heading} with trailing whitespace", context do
+        x = context.registered.atx_heading
+        assert [{:generic_strong, %{language: :markdown}, [x, " "]}] == lex("#{x} ")
+      end
+    end
   end
 end
