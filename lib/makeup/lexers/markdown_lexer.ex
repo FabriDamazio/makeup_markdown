@@ -12,14 +12,12 @@ defmodule Makeup.Lexers.MarkdownLexer do
   alias Makeup.Lexers.MarkdownLexer.MarkdownText
 
   root_element_combinator =
-    choice(
-      MarkdownLeafBlocks.get_atx_headings_tokens() ++
-        [
-          MarkdownWhitespaces.get_whitespaces_tokens(),
-          MarkdownWhitespaces.get_line_end_tokens(),
-          MarkdownText.get_text_token()
-        ]
-    )
+    choice([
+      MarkdownLeafBlocks.get_atx_headings_tokens(),
+      MarkdownWhitespaces.get_whitespaces_tokens(),
+      MarkdownWhitespaces.get_line_end_tokens(),
+      MarkdownText.get_text_token()
+    ])
 
   @doc false
   def __as_markdown_language__({type, meta, value}) do
