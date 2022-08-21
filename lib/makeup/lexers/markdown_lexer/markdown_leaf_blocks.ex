@@ -30,6 +30,7 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
       |> times(min: 1, max: 6)
     )
     |> optional(MarkdownWhitespaces.get_whitespaces())
+    |> eos()
     |> token(:generic_strong)
   end
 end

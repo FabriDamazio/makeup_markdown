@@ -91,7 +91,7 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
     end
   end
 
-  describe "lex/1 lexing ATX Heading more than three leading space - " do
+  describe "lex/1 lexing ATX Heading with more than three leading space - " do
     for atx_heading <- get_atx_headings() do
       @atx_heading atx_heading
 
@@ -103,6 +103,20 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
                ] ==
                  lex("    #{x}")
       end
+    end
+  end
+
+  describe "lex/1 - its not an ATX Heading - " do
+    test "More than six # - #######" do
+      assert [{:text, %{language: :markdown}, "#######"}] == lex("#######")
+    end
+
+    test "Atx with text without space - #Test" do
+      assert [{:text, %{language: :markdown}, "#Test"}] == lex("#Test")
+    end
+
+    test "Atx with text with more than six # - ####### Test" do
+      assert [{:text, %{language: :markdown}, "####### Test"}] == lex("####### Test")
     end
   end
 end
