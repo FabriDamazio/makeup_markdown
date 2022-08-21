@@ -119,4 +119,32 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
       assert [{:text, %{language: :markdown}, "####### Test"}] == lex("####### Test")
     end
   end
+
+  describe "lex/1 lexing multiline ATX headings" do
+    test "without heading text" do
+      assert [
+               {:generic_strong, %{language: :markdown}, ["#", "\n"]},
+               {:generic_strong, %{language: :markdown}, ["#", "#", "\n"]}
+             ] ==
+               lex("""
+               #
+               ##
+               """)
+    end
+
+    test "with heading text" do
+      assert [
+               {:generic_strong, %{language: :markdown}, ["#", " "]},
+               {:text, %{language: :markdown}, "Test"},
+               {:whitespace, %{language: :markdown}, "\n"},
+               {:generic_strong, %{language: :markdown}, ["#", "#", " "]},
+               {:text, %{language: :markdown}, "test"},
+               {:whitespace, %{language: :markdown}, "\n"}
+             ] ==
+               lex("""
+               # Test
+               ## test
+               """)
+    end
+  end
 end

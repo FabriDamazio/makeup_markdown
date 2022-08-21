@@ -29,8 +29,8 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
       string("#")
       |> times(min: 1, max: 6)
     )
+    |> lookahead_not(ascii_string([{:not, ?\n}, {:not, ?\r}, {:not, ?\s}], min: 1))
     |> optional(MarkdownWhitespaces.get_whitespaces())
-    |> eos()
     |> token(:generic_strong)
   end
 end
