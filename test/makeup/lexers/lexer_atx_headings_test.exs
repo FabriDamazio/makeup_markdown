@@ -52,7 +52,7 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
     end
   end
 
-  describe "lex/1 lexing ATX Heading with three leading space" do
+  describe "lex/1 lexing ATX Heading with three leading space - " do
     for atx_heading <- get_atx_headings() do
       @atx_heading atx_heading
 
@@ -65,7 +65,7 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
     end
   end
 
-  describe "lex/1 lexing ATX Heading with one trailing space" do
+  describe "lex/1 lexing ATX Heading with one trailing space - " do
     for atx_heading <- get_atx_headings() do
       @atx_heading atx_heading
 
@@ -78,7 +78,7 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
     end
   end
 
-  describe "lex/1 lexing ATX Heading with two trailing space" do
+  describe "lex/1 lexing ATX Heading with two trailing space - " do
     for atx_heading <- get_atx_headings() do
       @atx_heading atx_heading
 
@@ -87,6 +87,21 @@ defmodule Makeup.Lexers.LexerAtxHeadingsTest do
 
         assert [{:generic_strong, %{language: :markdown}, String.graphemes(x) ++ ["  "]}] ==
                  lex("#{x}  ")
+      end
+    end
+  end
+
+  describe "lex/1 lexing ATX Heading more than three leading space - " do
+    for atx_heading <- get_atx_headings() do
+      @atx_heading atx_heading
+
+      test "#{atx_heading}", context do
+        x = context.registered.atx_heading
+
+        assert [
+                 {:text, %{language: :markdown}, "    #{x}"}
+               ] ==
+                 lex("    #{x}")
       end
     end
   end

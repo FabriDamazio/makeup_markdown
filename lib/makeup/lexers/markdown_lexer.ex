@@ -14,7 +14,6 @@ defmodule Makeup.Lexers.MarkdownLexer do
   root_element_combinator =
     choice([
       MarkdownLeafBlocks.get_atx_headings_tokens(),
-      MarkdownWhitespaces.get_whitespaces_tokens(),
       MarkdownWhitespaces.get_line_end_tokens(),
       MarkdownText.get_text_token()
     ])

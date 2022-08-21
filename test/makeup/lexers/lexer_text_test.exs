@@ -9,7 +9,7 @@ defmodule Makeup.Lexers.LexerTextTest do
     end
 
     test "lexing a Text with leading space" do
-      assert [{:whitespace, %{language: :markdown}, " "}, {:text, %{language: :markdown}, "Text"}] ==
+      assert [{:text, %{language: :markdown}, " Text"}] ==
                MarkdownLexer.lex(" Text")
     end
 
@@ -19,8 +19,7 @@ defmodule Makeup.Lexers.LexerTextTest do
 
     test "lexing a Text with leading and trailing whitespace" do
       assert [
-               {:whitespace, %{language: :markdown}, " "},
-               {:text, %{language: :markdown}, "Text "}
+               {:text, %{language: :markdown}, " Text "}
              ] == MarkdownLexer.lex(" Text ")
     end
 
@@ -30,8 +29,7 @@ defmodule Makeup.Lexers.LexerTextTest do
 
     test "lexing a Text phrase with leading whitespace" do
       assert [
-               {:whitespace, %{language: :markdown}, " "},
-               {:text, %{language: :markdown}, "Text Text"}
+               {:text, %{language: :markdown}, " Text Text"}
              ] == MarkdownLexer.lex(" Text Text")
     end
   end

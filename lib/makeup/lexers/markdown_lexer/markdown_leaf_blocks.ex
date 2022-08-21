@@ -24,7 +24,6 @@ defmodule Makeup.Lexers.MarkdownLexer.MarkdownLeafBlocks do
   def get_atx_headings(), do: @atx_headings
 
   def get_atx_headings_tokens() do
-    # lookahead_not(string("#"))
     times(string(" "), max: 3)
     |> concat(
       string("#")
